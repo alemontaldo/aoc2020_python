@@ -1,40 +1,31 @@
-# day 11 (~ min)
+# day 11 (~120 min)
 
 # Represents the following neighborhood system: (where O are neighbors of c)
 #       O O O
 #       O c O
 #       O O O
-neighborhood = [(y, x) for y in range(-1, 2) for x in range(-1, 2)]
-neighborhood.remove((0, 0))
+neighborhood_relative_index = [(y, x) for y in range(-1, 2) for x in range(-1, 2)]
+neighborhood_relative_index.remove((0, 0))
 
 
 def main():
-    # with open('input11-dummy.txt', 'r') as f:
-    with open('input11.txt', 'r') as f:
-        data = [list(s) for s in f.read().split('\n')]
-        data = fill_margin(data)
-        # print(data[1][0])  # row 1 col 0
-        # print(data)
-
-    # data = occupy_seats(data)
-    # print()
-    # print(data)
-    #
-    # data = free_seats(data)
-    # print()
-    # print(data)
-
+    data = get_data()
     num_occupied = num_free = -1
     while num_occupied + num_free != 0:
-        data, num_occupied = occupy_seats(data)
-        # print(data)
-        data, num_free = free_seats(data)
-        # print(data)
+        data, num_occupied = apply_rule(data, empty_adjacent_part_1, '#')
+        data, num_free = apply_rule(data, adjacent_occupied_part_1, 'L')
 
-    print('day 11a solution:')
+    print('day 11, part one solution:')
     print(count_occupied(data))
 
-    print('day 11b solution:')
+    data = get_data()
+    num_occupied = num_free = -1
+    while num_occupied + num_free != 0:
+        data, num_occupied = apply_rule(data, empty_adjacent_part_2, '#')
+        data, num_free = apply_rule(data, adjacent_occupied_part_2, 'L')
+
+    print('day 11, part two solution:')
+    print(count_occupied(data))
 
 
 def fill_margin(data):
@@ -48,39 +39,101 @@ def fill_margin(data):
     return data
 
 
-def occupy_seats(data):
+def apply_rule(data, predicate, mark_char):
     seats = set()  # set of (y, x) positions of seats to be occupied
     for y in range(1, len(data) - 1):
         for x in range(1, len(data[0]) - 1):
-            if empty_adjacent(data, y, x) and data[y][x] != '.':
+            if predicate(data, y, x) and data[y][x] != '.':
                 seats.add((y, x))
-    return mark_seats(data, seats, '#')
+    return mark_seats(data, seats, mark_char)
 
 
-def free_seats(data):
-    seats = set()  # set of (y, x) positions of seats to be free
-    for y in range(1, len(data) - 1):
-        for x in range(1, len(data[0]) - 1):
-            if adjacent_occupied(data, y, x, 4) and data[y][x] != '.':
-                seats.add((y, x))
-    return mark_seats(data, seats, 'L')
+def empty_adjacent_part_1(data, yc, xc):
+    return not any(n == '#' for n in get_close_neighbors(data, yc, xc))
 
 
-def empty_adjacent(data, yc, xc):
-    # return not any([data[yc + y][xc - x] == '#' for y in range(-1, 2) for x in range(-1, 2)])
-    return not any(n == '#' for n in get_neighbors(data, yc, xc))
+def adjacent_occupied_part_1(data, yc, xc, num=4):
+    return sum(n == '#' for n in get_close_neighbors(data, yc, xc)) >= num
 
 
-def adjacent_occupied(data, yc, xc, num):
-    # return sum([data[yc + y][xc - x] == '#' for y in range(-1, 2) for x in range(-1, 2)]) >= num
-    return sum(n == '#' for n in get_neighbors(data, yc, xc)) >= num
+def empty_adjacent_part_2(data, yc, xc):
+    return not any(n == '#' for n in get_far_neighbors(data, yc, xc))
 
 
-def get_neighbors(data, yc, xc):
-    global neighborhood
+def adjacent_occupied_part_2(data, yc, xc, num=5):
+    return sum(n == '#' for n in get_far_neighbors(data, yc, xc)) >= num
+
+
+def get_close_neighbors(data, yc, xc):
+    global neighborhood_relative_index
     neighbors = []
-    for y, x in neighborhood:
+    for y, x in neighborhood_relative_index:
         neighbors.append(data[yc + y][xc + x])
+    return neighbors
+
+
+def get_far_neighbors(data, yc, xc):
+    neighbors = []
+    # up
+    y, x = yc - 1, xc
+    while data[y][x] == '.':
+        if y == 0:
+            break
+        y = y - 1
+    neighbors.append(data[y][x])
+    # up-right
+    y, x = yc - 1, xc + 1
+    while data[y][x] == '.':
+        if y == 0 or x == len(data[0]) - 1:
+            break
+        y = y - 1
+        x = x + 1
+    neighbors.append(data[y][x])
+    # right
+    y, x = yc, xc + 1
+    while data[y][x] == '.':
+        if x == len(data[0]) - 1:
+            break
+        x = x + 1
+    neighbors.append(data[y][x])
+    # down-right
+    y, x = yc + 1, xc + 1
+    while data[y][x] == '.':
+        if y == len(data) - 1 or x == len(data[0]) - 1:
+            break
+        y = y + 1
+        x = x + 1
+    neighbors.append(data[y][x])
+    # down
+    y, x = yc + 1, xc
+    while data[y][x] == '.':
+        if y == len(data) - 1:
+            break
+        y = y + 1
+    neighbors.append(data[y][x])
+    # down-left
+    y, x = yc + 1, xc - 1
+    while data[y][x] == '.':
+        if y == len(data) - 1 or x == 0:
+            break
+        y = y + 1
+        x = x - 1
+    neighbors.append(data[y][x])
+    # left
+    y, x = yc, xc - 1
+    while data[y][x] == '.':
+        if x == 0:
+            break
+        x = x - 1
+    neighbors.append(data[y][x])
+    # up-left
+    y, x = yc - 1, xc - 1
+    while data[y][x] == '.':
+        if y == 0 or x == 0:
+            break
+        y = y - 1
+        x = x - 1
+    neighbors.append(data[y][x])
     return neighbors
 
 
@@ -95,6 +148,12 @@ def mark_seats(data, seats, c):
 
 def count_occupied(data):
     return sum([seat == '#' for row in data for seat in row])
+
+
+def get_data():
+    with open('input11.txt', 'r') as f:
+        data = [list(s) for s in f.read().split('\n')]
+        return fill_margin(data)
 
 
 if __name__ == "__main__":

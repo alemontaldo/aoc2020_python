@@ -6,12 +6,12 @@ def main():
 
     answers = [create_set_1(group) for group in groups]
 
-    print('day 6a solution:')
+    print('day 6, part one solution:')
     print(sum([len(ans) for ans in answers]))
 
     answers = [create_set_2(group) for group in groups]
 
-    print('day 6b solution:')
+    print('day 6, part two solution:')
     print(sum([len(ans) for ans in answers]))
 
 

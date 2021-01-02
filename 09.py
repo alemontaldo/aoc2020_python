@@ -12,7 +12,7 @@ def main():
             invalid_number = data[i]
             break
 
-    print('day 9a solution:')
+    print('day 9, part one solution:')
     print(invalid_number)
 
     try:
@@ -27,7 +27,7 @@ def main():
     except BreakoutException:
         pass
 
-    print('day 9b solution:')
+    print('day 9, part two solution:')
     print(min(contiguous) + max(contiguous))
 
 

@@ -27,7 +27,7 @@ def main():
     #  here we are...
     count = len([p for p, l, m, M in zip(passw, letter, num_1, num_2) if p.count(l) in range(m, M + 1)])
 
-    print('day 2a solution:')
+    print('day 2, part one solution:')
     print(count)
 
     #  ----> indexing elements in lists (blah and dreadful performance)
@@ -40,7 +40,7 @@ def main():
     #  here we are...
     count = len([p for p, l, p1, p2 in zip(passw, letter, num_1, num_2) if is_valid_part_2(p, l, p1, p2)])
 
-    print('day 2b solution:')
+    print('day 2, part two solution:')
     print(count)
 
 

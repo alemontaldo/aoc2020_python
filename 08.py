@@ -4,7 +4,7 @@ def main():
     with open('input8.txt', 'r') as f:
         cmd = [[s.split()[0], int(s.split()[1][1:])*(-1 if s.split()[1][:1] == '-' else 1)] for s in f.read().split('\n')]
 
-    print('day 8a solution:')
+    print('day 8, part one solution:')
     acc, pc = run(cmd)
     print(acc)
 
@@ -15,7 +15,7 @@ def main():
         if pc == len(cmd):
             break
 
-    print('day 8b solution:')
+    print('day 8, part two solution:')
     print(acc)
 
 

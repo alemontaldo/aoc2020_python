@@ -17,14 +17,14 @@ def main():
     #      ... ...  ...
     # NOTE: double occurrences of the same number is useless (except for case 1010). these could be trimmed away
 
-    print('day 1a solution:')
+    print('day 1, part one solution:')
     assert len(result1) == 2
     a, b = result1[0]
     print(a * b)
 
     result2 = [(a, b, c) for a in data for b in data for c in data if a + b + c == 2020]
 
-    print('day 1b solution:')
+    print('day 1, part two solution:')
     assert len(result1) == 2
     a, b, c = result2[0]
     print(a * b * c)

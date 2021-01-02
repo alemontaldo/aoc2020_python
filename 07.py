@@ -15,10 +15,10 @@ def main():
                 if rule[1] == dest_bag and rule[0] not in explored:
                     explored.add(rule[0])
 
-    print('day 7a solution:')
+    print('day 7, part one solution:')
     print(len(explored)-1)
 
-    print('day 7b solution:')
+    print('day 7, part two solution:')
     print(num_bags_required_2('shiny gold', E))
 
 

@@ -7,10 +7,10 @@ def main():
         passports = [s.replace('\n', ' ').split(' ') for s in f.read().split('\n\n')]
         passports = [dict(zip([s.split(':')[0] for s in passport], [s.split(':')[1] for s in passport])) for passport in passports]
 
-    print('day 4a solution:')
+    print('day 4, part one solution:')
     print(sum([is_valid_1(p) for p in passports]))
 
-    print('day 4b solution:')
+    print('day 4, part two solution:')
     print(sum([is_valid_2(p) for p in passports]))
 
 

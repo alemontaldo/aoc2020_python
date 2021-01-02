@@ -9,7 +9,7 @@ def main():
 
     ans = [i for i in [data[i + 1] - data[i] for i in range(len(data) - 1)]]
 
-    print('day 10a solution:')
+    print('day 10, part one solution:')
     print(ans.count(1) * ans.count(3))
 
     # nodes are traversed backwards while propagating the number of new possible paths
@@ -20,7 +20,7 @@ def main():
             new_paths = new_paths + (path_from[data[i] + j] if data[i] + j in path_from else 0)
         path_from[data[i]] = new_paths
 
-    print('day 10b solution:')
+    print('day 10, part two solution:')
     print(path_from[0])
 
 

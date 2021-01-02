@@ -4,10 +4,10 @@ def main():
     with open('input3.txt', 'r') as f:
         lines = f.read().split('\n')
 
-    print('day 3a solution:')
+    print('day 3, part one solution:')
     print(count_trees(3, lines))
 
-    print('day 3b solution:')
+    print('day 3, part two solution:')
     print(count_trees(1, lines)
           * count_trees(3, lines)
           * count_trees(5, lines)

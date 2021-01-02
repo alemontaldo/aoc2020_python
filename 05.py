@@ -7,7 +7,7 @@ def main():
 
     seats = [[to_decimal(binary_row), to_decimal(binary_column)] for binary_column, binary_row in data]
 
-    print('day 5a solution:')
+    print('day 5, part one solution:')
     print(max([seat_id(seat) for seat in seats]))
 
     min_row = min([seat[0] for seat in seats])
@@ -21,7 +21,7 @@ def main():
             missing_row = row
             missing_col = set.difference({0, 1, 2, 3, 4, 5, 6, 7}, set(plane[row])).pop()
 
-    print('day 5b solution:')
+    print('day 5, part two solution:')
     print(seat_id([missing_row, missing_col]))
 
 
